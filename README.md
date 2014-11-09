@@ -52,7 +52,7 @@ Array
 )
 ```
 
-#### WHERE IN
+#### WHERE IN:
 
 ```php
 <?php
