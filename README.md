@@ -132,11 +132,10 @@ Result:
 green
 ```
 
-### Delete / Update / Insert
+#### Delete / Update / Insert
 These operations will return the number of affected result set. (integer)
 ```php
 <?php
-
 // Delete
 $db->query("DELETE FROM fruit WHERE id = :id", array("id"=>"1"));
 $db->query("DELETE FROM fruit WHERE id = ?", array("1"));
@@ -146,5 +145,21 @@ $db->query("UPDATE fruit SET color = ? WHERE name = ?", array("yellow","strawber
 // Insert
 $db->query("INSERT INTO fruit(id,name,color) VALUES(?,?,?)", array(null,"mango","yellow"));//Parameters must be ordered
 $db->query("INSERT INTO fruit(id,name,color) VALUES(:id,:name,:color)", array("color"=>"yellow","name"=>"mango","id"=>null));//Parameters order free
+?>
+```
+
+#### Get Last Insert ID
+
+```php
+<?php
+$db->lastInsertId();
+?>
+```
+
+#### Get the number of queries since the object initialization
+
+```php
+<?php
+$db->querycount;
 ?>
 ```
