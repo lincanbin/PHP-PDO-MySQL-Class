@@ -16,6 +16,24 @@ $DB = new Db(DBHost, DBName, DBUser, DBPassword);
 ?>
 ```
 
+Preventing SQL Injection Attacks
+------------
+####Safety: Use parameter binding method
+Safety Example:
+```php
+<?php
+$DB->query("SELECT * FROM fruit WHERE name=?", array('apple'));
+?>
+```
+
+
+####Unsafety: Split joint SQL string
+Unsafety Example: 
+```php
+<?php
+$DB->query("SELECT * FROM fruit WHERE name=".$_GET['name']);
+?>
+```
 Usage
 ------------
 
