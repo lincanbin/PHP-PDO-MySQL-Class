@@ -22,7 +22,7 @@ Preventing SQL Injection Attacks
 Safety Example:
 ```php
 <?php
-$DB->query("SELECT * FROM fruit WHERE name=?", array('apple'));
+$DB->query("SELECT * FROM fruit WHERE name=?", array($_GET['name']));
 ?>
 ```
 
