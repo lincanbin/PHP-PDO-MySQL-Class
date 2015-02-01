@@ -155,14 +155,14 @@ These operations will return the number of affected result set. (integer)
 ```php
 <?php
 // Delete
-$db->query("DELETE FROM fruit WHERE id = :id", array("id"=>"1"));
-$db->query("DELETE FROM fruit WHERE id = ?", array("1"));
+$DB->query("DELETE FROM fruit WHERE id = :id", array("id"=>"1"));
+$DB->query("DELETE FROM fruit WHERE id = ?", array("1"));
 // Update
-$db->query("UPDATE fruit SET color = :color WHERE name = :name", array("name"=>"strawberry","color"=>"yellow"));
-$db->query("UPDATE fruit SET color = ? WHERE name = ?", array("yellow","strawberry"));
+$DB->query("UPDATE fruit SET color = :color WHERE name = :name", array("name"=>"strawberry","color"=>"yellow"));
+$DB->query("UPDATE fruit SET color = ? WHERE name = ?", array("yellow","strawberry"));
 // Insert
-$db->query("INSERT INTO fruit(id,name,color) VALUES(?,?,?)", array(null,"mango","yellow"));//Parameters must be ordered
-$db->query("INSERT INTO fruit(id,name,color) VALUES(:id,:name,:color)", array("color"=>"yellow","name"=>"mango","id"=>null));//Parameters order free
+$DB->query("INSERT INTO fruit(id,name,color) VALUES(?,?,?)", array(null,"mango","yellow"));//Parameters must be ordered
+$DB->query("INSERT INTO fruit(id,name,color) VALUES(:id,:name,:color)", array("color"=>"yellow","name"=>"mango","id"=>null));//Parameters order free
 ?>
 ```
 
@@ -170,7 +170,7 @@ $db->query("INSERT INTO fruit(id,name,color) VALUES(:id,:name,:color)", array("c
 
 ```php
 <?php
-$db->lastInsertId();
+$DB->lastInsertId();
 ?>
 ```
 
@@ -178,6 +178,6 @@ $db->lastInsertId();
 
 ```php
 <?php
-$db->querycount;
+$DB->querycount;
 ?>
 ```
