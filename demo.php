@@ -141,13 +141,14 @@ $DB->query("CREATE TABLE IF NOT EXISTS `fruit` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;");
 
-$DB->query("INSERT INTO `fruit` (`id`, `name`, `color`) VALUES
+$AffectedRows = $DB->query("INSERT INTO `fruit` (`id`, `name`, `color`) VALUES
 (1, 'apple', 'red'),
 (2, 'banana', 'yellow'),
 (3, 'watermelon', 'green'),
 (4, 'pear', 'yellow'),
 (5, 'strawberry', 'red');
-");
+");//return 5, the number of affected rows by this INSERT/ UPDATE/ DELETE
+//echo $AffectedRows;
 ?>
 		<h4>
 			Fetching with Bindings (ANTI-SQL-INJECTION):
