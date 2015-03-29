@@ -181,3 +181,11 @@ $DB->lastInsertId();
 $DB->querycount;
 ?>
 ```
+
+#### Close Connection
+
+```php
+<?php
+$DB->CloseConnection;
+?>
+```
