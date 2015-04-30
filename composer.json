@@ -1,0 +1,19 @@
+{
+    "name": "lincanbin/php-pdo-mysql-class",
+    "keywords": [
+        "pdo",
+        "mysql",
+        "database"
+    ],
+    "description": "A PHP MySQL PDO class similar to the the Python MySQLdb, which supports parameter binding when using 'WHERE IN' statement.",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "lincanbin",
+            "email": "lincanbin@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.6"
+    }
+}
