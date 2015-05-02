@@ -140,8 +140,13 @@ class DB
 	{
 		$this->Init($query, $params);
 		$resultColumn = $this->sQuery->fetchAll(PDO::FETCH_COLUMN);
+<<<<<<< HEAD
 		$this->rowCount = $this->sQuery->rowCount();
 		$this->columnCount = $this->sQuery->columnCount();
+=======
+		//$this->rowCount = $this->sQuery->rowCount();
+		//$this->columnCount = $this->sQuery->columnCount();
+>>>>>>> 8039abc1570577235a77c0b141a736cc7dce15cd
 		$this->sQuery->closeCursor();
 		return $resultColumn;
 	}
@@ -151,8 +156,13 @@ class DB
 	{
 		$this->Init($query, $params);
 		$resultRow = $this->sQuery->fetch($fetchmode);
+<<<<<<< HEAD
 		$this->rowCount = $this->sQuery->rowCount();
 		$this->columnCount = $this->sQuery->columnCount();
+=======
+		//$this->rowCount = $this->sQuery->rowCount();
+		//$this->columnCount = $this->sQuery->columnCount();
+>>>>>>> 8039abc1570577235a77c0b141a736cc7dce15cd
 		$this->sQuery->closeCursor();
 		return $resultRow;
 	}
