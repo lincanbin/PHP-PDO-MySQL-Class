@@ -18,6 +18,7 @@ class DB
 	private $DBName;
 	private $DBUser;
 	private $DBPassword;
+	private $DBPort;
 	private $pdo;
 	private $sQuery;
 	private $bConnected = false;
@@ -28,13 +29,14 @@ class DB
 	public $querycount = 0;
 	
 	
-	public function __construct($Host, $DBName, $DBUser, $DBPassword)
+	public function __construct($Host, $DBName, $DBUser, $DBPassword, $DBPort = 3306)
 	{
 		$this->log        = new Log();
 		$this->Host       = $Host;
 		$this->DBName     = $DBName;
 		$this->DBUser     = $DBUser;
 		$this->DBPassword = $DBPassword;
+		$this->DBPort	  = $DBPort;
 		$this->Connect();
 		$this->parameters = array();
 	}
@@ -43,7 +45,7 @@ class DB
 	private function Connect()
 	{
 		try {
-			$this->pdo = new PDO('mysql:dbname=' . $this->DBName . ';host=' . $this->Host . ';charset=utf8', 
+			$this->pdo = new PDO('mysql:dbname=' . $this->DBName . ';host=' . $this->Host . ';port=' . $this->DBPort . ';charset=utf8', 
 				$this->DBUser, 
 				$this->DBPassword,
 				array(
