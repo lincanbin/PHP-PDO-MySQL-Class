@@ -70,11 +70,11 @@ Array
 )
 ```
 
-#### WHERE IN:
+#### WHERE IN (needs named placeholder):
 
 ```php
 <?php
-$DB->query("SELECT * FROM fruit WHERE name IN (?)",array('apple','banana'));
+$DB->query("SELECT * FROM fruit WHERE name IN (:fruits)",array(array('apple','banana')));
 ?>
 ```
 
@@ -98,11 +98,40 @@ Array
 )
 ```
 
+```php
+<?php
+$query = "SELECT * FROM fruit WHERE name IN (:fruits) AND color = :color";
+// use multidimensional array as $params
+$params = array(
+	"color" => "red",
+	"fruits" => array(
+		"apple",
+		"banana"
+	)
+);
+$DB->query($query,$params);
+?>
+```
+
+Result:
+
+```php
+Array
+(
+	[0] => Array
+		(
+			[id] => 1
+			[name] => apple
+			[color] => red
+		)
+)
+```
+
 #### Fetching Column:
 
 ```php
 <?php
-$DB->column("SELECT color FROM fruit WHERE name IN (?)",array('apple','banana','watermelon'));
+$DB->column("SELECT color FROM fruit WHERE name IN (:color)",array('apple','banana','watermelon'));
 ?>
 ```
 
