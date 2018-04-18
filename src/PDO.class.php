@@ -117,15 +117,29 @@ class DB
 		$this->parameters = array();
 	}
 	
-	private function BuildParams($query, $params = null)
-	{
+	private function BuildParams($query, $params = array()){
 		if (!empty($params)) {
-			$rawStatement = explode(" ", $query);
-			foreach ($rawStatement as $value) {
-				if (strtolower($value) == 'in') {
-					return str_replace("(?)", "(" . implode(",", array_fill(0, count($params), "?")) . ")", $query);
+			$array_parameter_found = false;
+			foreach ($params as $parameter_key => $parameter) {
+				if (is_array($parameter)){
+					$array_parameter_found = true;
+					$in = "";
+					foreach ($parameter as $key => $value){
+						$name_placeholder = $parameter_key."_".$key;
+						// concatenates params as named placeholders
+					    	$in .= ":".$name_placeholder.", ";
+						// adds each single parameter to $params
+						$params[$name_placeholder] = $value;
+					}
+					$in = rtrim($in, ", ");
+					$query = preg_replace("/:".$parameter_key."/", $in, $query);
+					// removes array form $params
+					unset($params[$parameter_key]);
 				}
 			}
+
+			// updates $this->params if $params and $query have changed
+			if ($array_parameter_found) $this->parameters = $params;
 		}
 		return $query;
 	}
