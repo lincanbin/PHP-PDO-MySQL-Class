@@ -51,12 +51,13 @@ The following parameters must be modified before running this DEMO.
 
 
 */
-define('DBHost', '127.0.0.1'); 
-define('DBName', 'Database');
-define('DBUser', 'root'); 
-define('DBPassword', ''); 
+define('DBHost', '127.0.0.1');
+define('DBPort', 3306);
+define('DBName', 'test');
+define('DBUser', 'root');
+define('DBPassword', '');
 require(dirname(__FILE__)."/src/PDO.class.php");
-$DB = new Db(DBHost, DBName, DBUser, DBPassword); 
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 ?>
 		<h2>
 			Preventing SQL Injection Attacks
