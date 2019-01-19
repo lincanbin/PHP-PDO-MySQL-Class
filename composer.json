@@ -14,11 +14,12 @@
         }
     ],
     "require": {
-        "php": ">=5.3.6"
+        "php": ">=5.3.6",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
     },
     "autoload": {
         "files": [
-            "src/PDO.Log.class.php",
             "src/PDO.class.php"
         ]
     }
