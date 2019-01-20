@@ -14,6 +14,7 @@ class PDOIterator implements Iterator {
     function rewind() {
         $this->position = 0;
         $this->pdo->execute();
+        $this->nextResult = $this->pdo->fetch($this->fetchMode, PDO::FETCH_ORI_NEXT);
     }
 
     function current() {
