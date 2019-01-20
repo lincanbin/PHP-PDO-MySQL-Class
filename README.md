@@ -245,7 +245,7 @@ $DB->closeConnection();
 Iterator
 ------------
 
-Use iterators when you want to read thousands of data from the database for full update of Elastic Search or Solr.
+**Use an iterator** when you want to read thousands of data from the database for statistical or full update of Elastic Search or Solr indexes.
 
 An iterator is a traversable object that does not read all the data queried from MySQL into memory.
 
@@ -263,5 +263,15 @@ $colorCountMap = array(
 foreach($it as $key => $value) {
     sendDataToElasticSearch($key, $value);
     $colorCountMap[$value['color']]++;
+}
+var_export($colorCountMap);
+```
+Return:
+
+```php
+array(3) {
+  [red] => 2
+  [yellow] => 2
+  [green] => 1
 }
 ```
