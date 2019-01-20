@@ -1,0 +1,25 @@
+language: php
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+  - nightly
+#  - hhvm
+
+#matrix:
+#  allow_failures:
+#    - php: hhvm
+
+services:
+  - mysql
+
+before_script:
+  - mysql -e "create database IF NOT EXISTS test;" -uroot
+  - php -m
+
+script:
+  - find ./ -type f -print0 | while read -d $'\0' file; do if [ "${file##*.}" = "php" ]; then echo "Check $file"; php -l $file; echo "";  echo ""; fi; done
+  - php test.php
