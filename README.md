@@ -1,4 +1,4 @@
-PHP-PDO-MySQL-Class
+PHP-PDO-MySQL-Class [![Build Status](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class.svg?branch=develop)](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class)
 ===================
 
 A  PHP MySQL PDO class similar to the the Python MySQLdb.
