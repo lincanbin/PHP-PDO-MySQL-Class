@@ -3,16 +3,27 @@ PHP-PDO-MySQL-Class
 
 A  PHP MySQL PDO class similar to the the Python MySQLdb.
 
+Install
+------------
+Copy the files under `src/` to your program
+ 
+OR
+
+```
+composer require lincanbin/php-pdo-mysql-class
+```
+
 Initialize
 ------------
 ```php
 <?php
 define('DBHost', '127.0.0.1');
+define('DBPort', 3306);
 define('DBName', 'Database');
 define('DBUser', 'root');
 define('DBPassword', '');
 require(dirname(__FILE__)."/src/PDO.class.php");
-$DB = new Db(DBHost, DBName, DBUser, DBPassword);
+$DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 ?>
 ```
 
@@ -109,7 +120,7 @@ $params = array(
 		"banana"
 	)
 );
-$DB->query($query,$params);
+$DB->query($query, $params);
 ?>
 ```
 
@@ -215,6 +226,30 @@ $DB->querycount;
 
 ```php
 <?php
-$DB->CloseConnection;
+$DB->closeConnection();
 ?>
+```
+
+Iterator
+------------
+
+Use iterators when you want to read thousands of data from the database for full update of Elastic Search or Solr.
+
+An iterator is a traversable object that does not read all the data queried from MySQL into memory.
+
+So you can safely use `foreach` to handle millions of MySQL result sets without worrying about excessive memory usage.
+
+Example:
+
+```php
+$it = $DB->iterator("SELECT * FROM fruit limit 0, 1000000;");
+$colorCountMap = array(
+    'red' => 0,
+    'yellow' => 0,
+    'green' => 0
+);
+foreach($it as $key => $value) {
+    sendDataToElasticSearch($key, $value);
+    $colorCountMap[$value['color']]++;
+}
 ```
