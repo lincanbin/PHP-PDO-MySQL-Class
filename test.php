@@ -7,7 +7,7 @@ define('DBPort', 3306);
 define('DBName', 'test');
 define('DBUser', 'root');
 define('DBPassword', '');
-require(dirname(__FILE__)."/src/PDO.class.php");
+require( __DIR__ . "/src/PDO.class.php");
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 
 $DB->query("DROP TABLE IF EXISTS `fruit`;");
