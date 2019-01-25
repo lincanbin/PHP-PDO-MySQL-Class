@@ -3,9 +3,10 @@
     "keywords": [
         "pdo",
         "mysql",
-        "database"
+        "database",
+        "iterator"
     ],
-    "description": "A PHP MySQL PDO class similar to the the Python MySQLdb, which supports parameter binding when using 'WHERE IN' statement.",
+    "description": "A PHP MySQL PDO class similar to the the Python MySQLdb, which supports iterator and parameter binding when using 'WHERE IN' statement.",
     "license": "Apache License Version 2.0",
     "authors": [
         {

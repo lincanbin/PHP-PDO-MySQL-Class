@@ -1,7 +1,19 @@
 PHP-PDO-MySQL-Class [![Build Status](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class.svg?branch=develop)](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class)
 ===================
 
-A  PHP MySQL PDO class similar to the the Python MySQLdb.
+A PHP MySQL PDO class similar to the the Python MySQLdb, 
+which supports iterator and parameter binding when using "WHERE IN" statement.
+
+* [Install](#install)
+
+* [Initialize](#initialize)
+
+* [Preventing SQL Injection Attacks](#preventing-sql-injection-attacks)
+
+* [Basic Usage](#basic-usage)
+
+* [Iterator](#iterator)
+
 
 Install
 ------------
@@ -22,7 +34,7 @@ define('DBPort', 3306);
 define('DBName', 'Database');
 define('DBUser', 'root');
 define('DBPassword', '');
-require(dirname(__FILE__)."/src/PDO.class.php");
+require(__DIR__ . "/src/PDO.class.php");
 $DB = new Db(DBHost, DBPort, DBName, DBUser, DBPassword);
 ?>
 ```
@@ -45,7 +57,7 @@ Unsafety Example:
 $DB->query("SELECT * FROM fruit WHERE name=".$_GET['name']);
 ?>
 ```
-Usage
+Basic Usage
 ------------
 
 #### table "fruit"
