@@ -12,6 +12,8 @@ which supports iterator and parameter binding when using "WHERE IN" statement.
 
 * [Basic Usage](#basic-usage)
 
+* [Transaction](#transaction)
+
 * [Iterator](#iterator)
 
 
@@ -239,6 +241,21 @@ $DB->querycount;
 ```php
 <?php
 $DB->closeConnection();
+?>
+```
+
+Transaction
+------------
+```php
+<?php
+try {
+    $DB->beginTransaction();
+    var_dump($DB->inTransaction()); // print "true"
+    $DB->commit();
+} catch(Exception $ex) {
+    // handle Error
+    $DB->rollBack();
+}
 ?>
 ```
 
