@@ -245,22 +245,22 @@ $DB->closeConnection();
 Iterator
 ------------
 
-**Use an iterator** when you want to read thousands of data from the database for statistical or full update of Elastic Search or Solr indexes.
+**Use iterator** when you want to read thousands of data from the database for statistical or full update of Elastic Search or Solr indexes.
 
-An iterator is a traversable object that does not read all the data queried from MySQL into memory.
+[Iterator](https://secure.php.net/manual/en/class.iterator.php) is a traversable object that does not read all the data queried from MySQL into memory.
 
 So you can safely use `foreach` to handle millions of MySQL result sets without worrying about excessive memory usage.
 
 Example:
 
 ```php
-$it = $DB->iterator("SELECT * FROM fruit limit 0, 1000000;");
+$iteratorInstance = $DB->iterator("SELECT * FROM fruit limit 0, 1000000;");
 $colorCountMap = array(
     'red' => 0,
     'yellow' => 0,
     'green' => 0
 );
-foreach($it as $key => $value) {
+foreach($iteratorInstance as $key => $value) {
     sendDataToElasticSearch($key, $value);
     $colorCountMap[$value['color']]++;
 }
