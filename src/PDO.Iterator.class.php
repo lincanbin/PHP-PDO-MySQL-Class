@@ -7,7 +7,7 @@ class PDOIterator implements Iterator {
 
     public function __construct(PDOStatement $pdo, $fetchMode = PDO::FETCH_ASSOC) {
         $this->position = 0;
-        $this->pdo = $pdo;
+        $this->pdo = clone $pdo;
         $this->fetchMode = $fetchMode;
     }
 
