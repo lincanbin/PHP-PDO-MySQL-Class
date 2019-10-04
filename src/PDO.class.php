@@ -224,7 +224,7 @@ class DB
 		$rawStatement = explode(" ", $query);
 		$this->Init($query, $params);
 		$statement = strtolower($rawStatement[0]);
-		if ($statement === 'select' || $statement === 'show') {
+		if ($statement === 'select' || $statement === 'show' || $statement === 'call') {
 			return $this->sQuery->fetchAll($fetchMode);
 		} elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
 			return $this->sQuery->rowCount();
@@ -246,7 +246,7 @@ class DB
         $rawStatement = explode(" ", $query);
         $this->Init($query, $params, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $statement = strtolower($rawStatement[0]);
-        if ($statement === 'select' || $statement === 'show') {
+        if ($statement === 'select' || $statement === 'show' || $statement === 'call') {
             return new PDOIterator($this->sQuery, $fetchMode);
         } elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
             return $this->sQuery->rowCount();
