@@ -245,7 +245,7 @@ class DB
         $query        = trim($query);
         $rawStatement = explode(" ", $query);
         $this->Init($query, $params, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-        $statement = strtolower($rawStatement[0]);
+        $statement = strtolower(trim($rawStatement[0]));
         if ($statement === 'select' || $statement === 'show' || $statement === 'call' || $statement === 'describe') {
             return new PDOIterator($this->sQuery, $fetchMode);
         } elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
