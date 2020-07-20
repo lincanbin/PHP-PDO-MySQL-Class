@@ -8,8 +8,8 @@
  *
  * Licensed under the Apache License, Version 2.0:
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A PHP MySQL PDO class similar to the the Python MySQLdb. 
+ *
+ * A PHP MySQL PDO class similar to the the Python MySQLdb.
  */
 require(__DIR__ . '/PDO.Log.class.php');
 require(__DIR__ . '/PDO.Iterator.class.php');
@@ -58,8 +58,8 @@ class DB
 		$this->parameters = array();
 		$this->Connect();
 	}
-	
-	
+
+
 	private function Connect()
 	{
 		try {
@@ -71,7 +71,7 @@ class DB
 			}
 			$dsn .= 'charset=utf8;';
 			$this->pdo = new PDO($dsn,
-				$this->DBUser, 
+				$this->DBUser,
 				$this->DBPassword,
 				array(
 					//For PHP 5.3.6 or lower
@@ -80,10 +80,9 @@ class DB
 
 					//长连接
 					//PDO::ATTR_PERSISTENT => true,
-					
+
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-                    PDO::MYSQL_ATTR_FOUND_ROWS => true
+					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 				)
 			);
 			/*
@@ -95,7 +94,7 @@ class DB
 			$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 			*/
 			$this->connectionStatus = true;
-			
+
 		}
 		catch (PDOException $e) {
 			$this->ExceptionLog($e, '', 'Connect');
@@ -124,7 +123,7 @@ class DB
 		try {
 			$this->parameters = $parameters;
 			$this->sQuery     = $this->pdo->prepare($this->BuildParams($query, $this->parameters), $driverOptions);
-			
+
 			if (!empty($this->parameters)) {
 				if (array_key_exists(0, $parameters)) {
 					$parametersType = true;
@@ -147,10 +146,10 @@ class DB
 			$this->ExceptionLog($e, $this->BuildParams($query), 'Init', array('query' => $query, 'parameters' => $parameters));
 
 		}
-		
+
 		$this->parameters = array();
 	}
-	
+
 	private function BuildParams($query, $params = null)
 	{
 		if (!empty($params)) {
@@ -224,7 +223,7 @@ class DB
 		$rawStatement = explode(" ", $query);
 		$this->Init($query, $params);
 		$statement = strtolower($rawStatement[0]);
-		if ($statement === 'select' || $statement === 'show' || $statement === 'call' || $statement === 'describe') {
+		if ($statement === 'select' || $statement === 'show') {
 			return $this->sQuery->fetchAll($fetchMode);
 		} elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
 			return $this->sQuery->rowCount();
@@ -245,8 +244,8 @@ class DB
         $query        = trim($query);
         $rawStatement = explode(" ", $query);
         $this->Init($query, $params, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-        $statement = strtolower(trim($rawStatement[0]));
-        if ($statement === 'select' || $statement === 'show' || $statement === 'call' || $statement === 'describe') {
+        $statement = strtolower($rawStatement[0]);
+        if ($statement === 'select' || $statement === 'show') {
             return new PDOIterator($this->sQuery, $fetchMode);
         } elseif ($statement === 'insert' || $statement === 'update' || $statement === 'delete') {
             return $this->sQuery->rowCount();
@@ -264,7 +263,7 @@ class DB
 	{
 		$keys = array_keys($params);
 		$rowCount = $this->query(
-			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`) 
+			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`)
 			VALUES (:' . implode(',:', $keys) . ')',
 			$params
 		);
@@ -337,10 +336,13 @@ class DB
 		$exception = 'Unhandled Exception. <br />';
 		$exception .= $message;
 		$exception .= "<br /> You can find the error back in the log.";
-		
-		if (!empty($sql)) {
-			$message .= "\r\nRaw SQL : " . $sql;
-		}
+
+        if (!empty($sql)) {
+            $message .= "\r\nRaw SQL : {$sql}";
+        }
+        if (isset($parameters['parameters'])) {
+            $message .= "\r\nParamters : " . print_r($parameters['parameters'], true);
+        }
 		$this->logObject->write($message, $this->DBName . md5($this->DBPassword));
 		if (
 			self::AUTO_RECONNECT
