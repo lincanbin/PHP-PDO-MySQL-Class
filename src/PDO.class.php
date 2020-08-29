@@ -9,7 +9,7 @@
  * Licensed under the Apache License, Version 2.0:
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * A PHP MySQL PDO class similar to the the Python MySQLdb. 
+ * A PHP MySQL PDO class similar to the Python MySQLdb. 
  */
 require(__DIR__ . '/PDO.Log.class.php');
 require(__DIR__ . '/PDO.Iterator.class.php');
