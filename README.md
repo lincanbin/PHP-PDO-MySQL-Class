@@ -1,7 +1,7 @@
 PHP-PDO-MySQL-Class [![Build Status](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class.svg?branch=develop)](https://travis-ci.org/lincanbin/PHP-PDO-MySQL-Class)
 ===================
 
-A PHP MySQL PDO class similar to the the Python MySQLdb, 
+A PHP MySQL PDO class similar to the Python MySQLdb, 
 which supports iterator and parameter binding when using "WHERE IN" statement.
 
 * [Install](#install)
