@@ -8,8 +8,8 @@
  *
  * Licensed under the Apache License, Version 2.0:
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A PHP MySQL PDO class similar to the Python MySQLdb. 
+ *
+ * A PHP MySQL PDO class similar to the Python MySQLdb.
  */
 require(__DIR__ . '/PDO.Log.class.php');
 require(__DIR__ . '/PDO.Iterator.class.php');
@@ -58,8 +58,8 @@ class DB
 		$this->parameters = array();
 		$this->Connect();
 	}
-	
-	
+
+
 	private function Connect()
 	{
 		try {
@@ -71,7 +71,7 @@ class DB
 			}
 			$dsn .= 'charset=utf8;';
 			$this->pdo = new PDO($dsn,
-				$this->DBUser, 
+				$this->DBUser,
 				$this->DBPassword,
 				array(
 					//For PHP 5.3.6 or lower
@@ -80,7 +80,7 @@ class DB
 
 					//长连接
 					//PDO::ATTR_PERSISTENT => true,
-					
+
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
                     PDO::MYSQL_ATTR_FOUND_ROWS => true
@@ -95,7 +95,7 @@ class DB
 			$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 			*/
 			$this->connectionStatus = true;
-			
+
 		}
 		catch (PDOException $e) {
 			$this->ExceptionLog($e, '', 'Connect');
@@ -124,7 +124,7 @@ class DB
 		try {
 			$this->parameters = $parameters;
 			$this->sQuery     = $this->pdo->prepare($this->BuildParams($query, $this->parameters), $driverOptions);
-			
+
 			if (!empty($this->parameters)) {
 				if (array_key_exists(0, $parameters)) {
 					$parametersType = true;
@@ -147,10 +147,10 @@ class DB
 			$this->ExceptionLog($e, $this->BuildParams($query), 'Init', array('query' => $query, 'parameters' => $parameters));
 
 		}
-		
+
 		$this->parameters = array();
 	}
-	
+
 	private function BuildParams($query, $params = null)
 	{
 		if (!empty($params)) {
@@ -162,7 +162,7 @@ class DB
 					foreach ($parameter as $key => $value){
 						$name_placeholder = $parameter_key."_".$key;
 						// concatenates params as named placeholders
-					    	$in .= ":".$name_placeholder.", ";
+                            $in .= ":".$name_placeholder.", ";
 						// adds each single parameter to $params
 						$params[$name_placeholder] = $value;
 					}
@@ -264,7 +264,7 @@ class DB
 	{
 		$keys = array_keys($params);
 		$rowCount = $this->query(
-			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`) 
+			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`)
 			VALUES (:' . implode(',:', $keys) . ')',
 			$params
 		);
@@ -272,7 +272,74 @@ class DB
 			return false;
 		}
 		return $this->lastInsertId();
-	}
+    }
+
+    /**
+     * insert multi rows
+     *
+     * @param string $tableName database table name
+     * @param array $params structure like [[colname1 => value1, colname2 => value2], [colname1 => value3, colname2 => value4]]
+     * @return boolean success or not
+     */
+    public function insertMulti($tableName, $params = array())
+    {
+        $rowCount = 0;
+        if (!empty($params)) {
+            $insParaStr = '';
+            $insValueArray = array();
+
+            foreach ($params as $addRow) {
+                $insColStr = implode('`,`', array_keys($addRow));
+                $insParaStr .= '(' . implode(",", array_fill(0, count($addRow), "?")) . '),';
+                $insValueArray = array_merge($insValueArray, array_values($addRow));
+            }
+            $insParaStr = substr($insParaStr, 0, -1);
+            $dbQuery = "INSERT INTO {$tableName} (
+                            `$insColStr`
+                        ) VALUES
+                            $insParaStr";
+            $rowCount = $this->query($dbQuery, $insValueArray);
+        }
+        return (bool) ($rowCount > 0);
+    }
+
+    /**
+     * update
+     *
+     * @param string $tableName
+     * @param array $params
+     * @param array $where
+     * @return int affect rows
+     */
+    public function update($tableName, $params = array(), $where = array())
+    {
+        $rowCount = 0;
+        if (!empty($params)) {
+            $updColStr = '';
+            $whereStr = '';
+            $updatePara = array();
+            // Build update statement
+            foreach ($params as $key => $value) {
+                $updColStr .= "{$key}=?,";
+            }
+            $updColStr = substr($updColStr, 0, -1);
+            $dbQuery = "UPDATE {$tableName}
+                        SET {$updColStr}";
+            // where condition
+            if (is_array($where)) {
+                foreach ($where as $key => $value) {
+                    // Is there need to add "OR" condition?
+                    $whereStr .= "AND {$key}=?";
+                }
+                $dbQuery .= " WHERE 1=1 {$whereStr}";
+                $updatePara = array_merge(array_values($params), array_values($where));
+            } else {
+                $updatePara = array_values($params);
+            }
+            $rowCount = $this->query($dbQuery, $updatePara);
+        }
+        return $rowCount;
+    }
 
     /**
      * @return string
@@ -337,7 +404,7 @@ class DB
 		$exception = 'Unhandled Exception. <br />';
 		$exception .= $message;
 		$exception .= "<br /> You can find the error back in the log.";
-		
+
 		if (!empty($sql)) {
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
