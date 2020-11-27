@@ -221,7 +221,7 @@ class DB
 	public function query($query, $params = null, $fetchMode = PDO::FETCH_ASSOC)
 	{
 		$query        = trim($query);
-		$rawStatement = explode(" ", $query);
+		$rawStatement = preg_split("/( |\r|\n)/", $query);
 		$this->Init($query, $params);
 		$statement = strtolower($rawStatement[0]);
 		if ($statement === 'select' || $statement === 'show' || $statement === 'call' || $statement === 'describe') {
@@ -243,7 +243,7 @@ class DB
     public function iterator($query, $params = null, $fetchMode = PDO::FETCH_ASSOC)
     {
         $query        = trim($query);
-        $rawStatement = explode(" ", $query);
+        $rawStatement = preg_split("/( |\r|\n)/", $query);
         $this->Init($query, $params, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $statement = strtolower(trim($rawStatement[0]));
         if ($statement === 'select' || $statement === 'show' || $statement === 'call' || $statement === 'describe') {
