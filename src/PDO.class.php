@@ -114,7 +114,7 @@ class DB
 	public function closeConnection()
 	{
 		$this->pdo = null;
-	}
+    }
 
 	private function Init($query, $parameters = null, $driverOptions = array())
 	{
@@ -212,6 +212,17 @@ class DB
 	}
 
     /**
+     * mysql unbuffered mode, suitable for reading huge data source
+     * @see https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php
+     *
+     * @return void
+     */
+	public function unbuffered()
+	{
+		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+	}
+
+    /**
      * execute a sql query, returns an result array in the select operation, and returns the number of rows affected in other operations
      * @param string $query
      * @param null $params
@@ -264,7 +275,7 @@ class DB
 	{
 		$keys = array_keys($params);
 		$rowCount = $this->query(
-			'INSERT INTO `' . $tableName . '` (`' . implode('`,`', $keys) . '`)
+			'INSERT INTO ' . $tableName . ' (`' . implode('`,`', $keys) . '`)
 			VALUES (:' . implode(',:', $keys) . ')',
 			$params
 		);
@@ -348,7 +359,6 @@ class DB
 	{
 		return $this->pdo->lastInsertId();
 	}
-
 
     /**
      * @param $query
